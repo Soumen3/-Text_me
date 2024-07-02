@@ -4,3 +4,39 @@ body{
 	background-color: #393E46;
 	color: #fff;
 }
+
+a.nav-link{
+	color: #fff;
+}
+a.nav-link:hover{
+	color: #fff !important;
+}
+
+.nav-container{
+	background-color: #283e5e4d;
+	padding: .3em 0;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+
+}
+
+.nav-items{
+	justify-content: space-evenly;
+}
+
+.main-nav-item{
+	column-gap: 2rem;
+	align-items: center;
+}
+
+.auth-items{
+	column-gap: 2rem;
+	row-gap: 1rem;
+	/* width: fit-content; */
+	align-items: center;
+}
+
+.active{
+	color: #e1471c !important;
+}

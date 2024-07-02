@@ -45,3 +45,12 @@ def logout_user(request):
 
 def home(request):
     return render(request, 'chat/home.html')
+
+def chat(request):
+    return render(request, 'chat/chat.html')
+
+def contacts(request):
+    return render(request, 'chat/contacts.html')
+
+def profile(request):
+    return render(request, 'chat/profile.html')
