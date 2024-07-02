@@ -1,34 +1,56 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Sign Up{% endblock title %}
+{% block css %}
+	<link rel="stylesheet" href="{% static 'chat/css/signup.css' %}">
+	<style>
+		body{
+			background-image: url('{% static "chat/media/illustration/login-bg.jpg" %}');
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+			backdrop-filter: blur(3px);
+		}
+	</style>
+{% endblock css %}
 
 {% block body %}
-    <div class="container">
-        <h1>Sign Up</h1>
-        <form method="post" novalidate>
-            {% csrf_token %}
-            <div class="fieldWrapper ">
-                {{ form.first_name.as_field_group }}
-            </div>
-            <div class="fieldWrapper">
-                {{ form.last_name.as_field_group }}
-            </div>
-            <div class="fieldWrapper">
-                {{ form.email.as_field_group }}
-            </div>
-            <div class="fieldWrapper">
-                {{ form.username.as_field_group }}
-            </div>
-            <div class="fieldWrapper">
-                {{ form.password1.as_field_group }}
-            </div>
-            <div class="fieldWrapper">
-                {{ form.password2.as_field_group }}
-            </div>
-            <div class="fieldWrapper">
-                {{ form.non_field_errors }}
-            </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+<div class="d-flex justify-content-center align-items-center" style="height: 90vh;">
+    <div class="login-form-container">
+        <form action="" method="post" class="login-form mb-3" novalidate>{% csrf_token %}
+            <p class="fw-semibold text-center fs-4">Sign Up</p>
+            {% for field in form %}
+                <div class="">
+                    {{field}} <small class='text-danger'>{{field.errors|striptags}}</small>
+                </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-danger" value='Submit'>
+        
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class=" alert alert-danger my-3">{{error}}</p>
+                {% endfor %}
+            {% endif %}
         </form>
-    </div>
+        <p class="text-end  extra-text">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+
+
+
+        <div class="row auth">
+            <div class="auth-item text-center">
+                <a href="#" class="d-flex align-items-center gap-2">
+                    <img src="{% static 'chat/media/google.png' %}" class="auth-image" alt="" srcset="">
+                    <span class="auth-text">Sign up with Google</span>
+                </a>
+            </div>
+            <div class="auth-item text-center">
+                <a href="#" class="d-flex align-items-center gap-2">
+                    <img src="{% static 'chat/media/apple.png' %}" class="auth-image" alt="" srcset="">
+                    <span class="auth-text">Sign up with Apple</span>
+                </a>
+            </div>
+        </div>
+    </div>	
+</div>
 {% endblock body %}
