@@ -1,14 +1,55 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Login{% endblock title %}
+{% block css %}
+	<link rel="stylesheet" href="{% static 'chat/css/login.css' %}">
+	<style>
+		body{
+			background-image: url('{% static "chat/media/illustration/login-bg.jpg" %}');
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+			backdrop-filter: blur(3px);
+		}
+	</style>
+{% endblock css %}
 
 {% block body %}
-	<div class="container">
-		<h1>Login</h1>
-		<form action="" method="post">
-			{% csrf_token %}
-			{{form.as_p}}
-			<button type="submit" class="btn btn-primary">Login</button>
-		</form>
+	<div class="d-flex justify-content-center align-items-center" style="height: 90vh;">
+		<div class="login-form-container">
+			<form action="" method="post" class="login-form mb-3" novalidate>{% csrf_token %}
+				<p class="fw-semibold text-center fs-4">Login</p>
+				{% for field in form %}
+					<div class="">
+						{{field}} <small class='text-danger'>{{field.errors|striptags}}</small>
+					</div>
+				{% endfor %}
+				<input type="submit" class="btn btn-danger" value='Submit'>
+			
+				{% if form.non_field_errors %}
+					{% for error in form.non_field_errors %}
+						<p class=" alert alert-danger my-3">{{error}}</p>
+					{% endfor %}
+				{% endif %}
+			</form>
+			<p class="text-end  extra-text">Don't have an account? <a href="{% url 'signup' %}">Register</a></p>
+			<p class="text-end  extra-text">Forgot Password? <a href="#">Reset</a></p>
+
+			<div class="row auth">
+				<div class="auth-item text-center">
+					<a href="#" class="d-flex align-items-center gap-2">
+						<img src="{% static 'chat/media/google.png' %}" class="auth-image" alt="" srcset="">
+						<span class="auth-text">Sign in with Google</span>
+					</a>
+				</div>
+				<div class="auth-item text-center">
+					<a href="#" class="d-flex align-items-center gap-2">
+						<img src="{% static 'chat/media/apple.png' %}" class="auth-image" alt="" srcset="">
+						<span class="auth-text">Sign in with Apple</span>
+					</a>
+				</div>
+			</div>
+		</div>	
 	</div>
 {% endblock body %}
