@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 # Create your views here.
@@ -11,7 +10,7 @@ def sign_in(request):
     
     context = {}
     if request.method =="POST":
-        form = AuthenticationForm(data=request.POST)
+        form = CustomLoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             if user is not None:
@@ -21,7 +20,7 @@ def sign_in(request):
                 messages.error(request, 'Invalid username or password')
 
     else:
-        form = AuthenticationForm()
+        form = CustomLoginForm()
     context['form'] = form
     return render(request, 'auth/login.html', context)
 
