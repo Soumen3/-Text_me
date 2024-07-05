@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block body %}
+	<form method='POST' class="resend-mail-form">{% csrf_token %}
+				
+		<fieldset>
+			{% for field in form %}
+				<div class="coolinput">
+					<label for="{{field.id_for_label}}" class="text">{{field.label}}</label>
+					{{field}}  <small class='text-warning'>{{field.errors|striptags}}</small>
+				</div>
+			{% endfor %}
+		</fieldset>
+
+		<div style="margin-top: 1rem;">
+			<button class="btn btn-dark" type="submit">Request New Email</button>
+		</div>
+	</form>
+{% endblock body %}
