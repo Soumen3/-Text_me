@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat',
+	"verify_email.apps.VerifyEmailConfig",
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,25 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "soumensamanta721150@gmail.com"
+EMAIL_HOST_PASSWORD = "vpit psev ueav brtk"
+
+DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
+EXPIRE_AFTER = "10m" # Will expire after 10 minutes from link generation
+LOGIN_URL = 'login'
+MAX_RETRIES = 10
+
+
+VERIFICATION_SUCCESS_TEMPLATE = "email_verification/verification_successfull.html"
+VERIFICATION_FAILED_TEMPLATE = "email_verification/verification_failed.html"
+LINK_EXPIRED_TEMPLATE = "email_verification/link_expired.html"
+REQUEST_NEW_EMAIL_TEMPLATE = "email_verification/request_new_email.html"
+NEW_EMAIL_SENT_TEMPLATE = "email_verification/new_email_sent.html"

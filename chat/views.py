@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from verify_email.email_handler import send_verification_email
+
 # Create your views here.
 
 def sign_in(request):
@@ -32,8 +34,8 @@ def sign_up(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            inactive_user = send_verification_email(request, form)
+            return redirect('verification_msg')
     else:
         form = CustomUserCreationForm()
     context['form'] = form
@@ -42,6 +44,10 @@ def sign_up(request):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+def verification_msg(request):
+    message = "Email verification link sent to your email address. Please verify your email to login."
+    return render(request, 'email_verification/verification_msg.html', {'msg': message})
 
 def home(request):
     return render(request, 'chat/home.html')
