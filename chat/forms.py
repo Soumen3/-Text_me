@@ -37,3 +37,6 @@ class CustomLoginForm(AuthenticationForm):
                     'required': 'required'
                 }
         ))
+    
+class ForgotUsernameForm(forms.Form):
+    email = forms.EmailField(max_length=75, required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}))

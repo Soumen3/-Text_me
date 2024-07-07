@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomLoginForm
-from django.contrib.auth import authenticate, login, logout
+from .forms import CustomUserCreationForm, CustomLoginForm, ForgotUsernameForm
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from verify_email.email_handler import send_verification_email
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -41,6 +42,31 @@ def sign_up(request):
         form = CustomUserCreationForm()
     context['form'] = form
     return render(request, 'auth/signup.html', context)
+
+User = get_user_model()
+
+def forgot_username(request):
+    if request.method == 'POST':
+        form = ForgotUsernameForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+                send_mail(
+                    'Your Username',
+                    f'Hello {user.first_name},\n\nYour username is: {user.username}',
+                    'noreply<no_reply@domain.com>',
+                    [email],
+                    fail_silently=False,
+                )
+                messages.success(request, 'Your username has been sent to your email.')
+                return redirect('login')
+            except User.DoesNotExist:
+                messages.error(request, 'No user is associated with this email.')
+    else:
+        form = ForgotUsernameForm()
+    return render(request, 'forgot_username/forgot_username.html', {'form': form})
+        
 
 def logout_user(request):
     logout(request)
