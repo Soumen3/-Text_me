@@ -34,7 +34,7 @@
 				{% endif %}
 			</form>
 			<p class="text-end  extra-text">Don't have an account? <a href="{% url 'signup' %}">Register</a></p>
-			<p class="text-end  extra-text">Forgot Password? <a href="#">Reset</a></p>
+			<p class="text-end  extra-text">Forgot Password? <a href="{% url "password_reset" %}">Reset</a></p>
 
 			<div class="row auth">
 				<div class="auth-item text-center">

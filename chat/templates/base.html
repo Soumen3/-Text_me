@@ -25,7 +25,7 @@
 					<div class="collapse navbar-collapse nav-items" id="navbarNavAltMarkup">
 						<div class="navbar-nav main-nav-item text-white">
 							<a class="nav-link {% if request.path == '/' %} active {% endif %}" aria-current="page" href="{% url "home" %}">Home</a>
-							<a class="nav-link {% if request.path == '/chat/' %} active {% endif %}" href="{% url "chat" %}">Chat</a>
+							<a class="nav-link {% if request.path == '/chat/' %} active {% endif %} " href="{% url "chat" %}">Chat</a>
 							<a class="nav-link {% if request.path == '/contacts/' %} active {% endif %}" href="{% url "contacts" %}">Contacts</a>
 							<a class="nav-link {% if request.path == '/profile/' %} active {% endif %}" href="{% url "profile" %}">Profile</a>
 						</div>

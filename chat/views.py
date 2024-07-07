@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from verify_email.email_handler import send_verification_email
 
@@ -52,11 +53,14 @@ def verification_msg(request):
 def home(request):
     return render(request, 'chat/home.html')
 
+@login_required(login_url='login')
 def chat(request):
     return render(request, 'chat/chat.html')
 
+@login_required(login_url='login')
 def contacts(request):
     return render(request, 'chat/contacts.html')
 
+@login_required(login_url='login')
 def profile(request):
     return render(request, 'chat/profile.html')
