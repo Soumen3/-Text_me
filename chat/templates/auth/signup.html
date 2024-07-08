@@ -37,8 +37,8 @@
         <p class="text-end  extra-text">Already submitted? <a href="{% url 'request-new-link-from-email' %}">Resend verification email</a></p>
 
 
-
-        <div class="row auth">
+        {% comment %} Social Authentication {% endcomment %}
+        {% comment %} <div class="row auth">
             <div class="auth-item text-center">
                 <a href="#" class="d-flex align-items-center gap-2">
                     <img src="{% static 'chat/media/google.png' %}" class="auth-image" alt="" srcset="">
@@ -51,7 +51,7 @@
                     <span class="auth-text">Sign up with Apple</span>
                 </a>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>	
 </div>
 {% endblock body %}
