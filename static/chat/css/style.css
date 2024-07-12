@@ -47,6 +47,10 @@ a.nav-link:hover{
 	z-index: 100;
 
 }
+.navbar{
+	padding: 0 !important;
+}
+
 
 .nav-items{
 	justify-content: space-evenly;
