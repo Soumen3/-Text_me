@@ -85,7 +85,16 @@ def chat(request):
 
 @login_required(login_url='login')
 def contacts(request):
-    return render(request, 'chat/contacts.html')
+    context = {}
+    if request.method == "GET":
+        if "friends" in request.GET:
+            users= User.objects.filter(username__icontains=request.GET['friends'])
+            user_first_names=User.objects.filter(first_name__icontains=request.GET['friends'])
+            user_last_names=User.objects.filter(last_name__icontains=request.GET['friends'])
+            friends=users.union(user_first_names, user_last_names)
+            context['friends']=friends
+
+    return render(request, 'chat/contacts.html', context)
 
 @login_required(login_url='login')
 def profile(request):
