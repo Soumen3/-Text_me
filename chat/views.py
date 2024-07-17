@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from verify_email.email_handler import send_verification_email
 from django.core.mail import send_mail
-
+from .models import Friend
+from django.db.models import Q
 # Create your views here.
 
 def sign_in(request):
@@ -91,8 +92,20 @@ def contacts(request):
             users= User.objects.filter(username__icontains=request.GET['friends'])
             user_first_names=User.objects.filter(first_name__icontains=request.GET['friends'])
             user_last_names=User.objects.filter(last_name__icontains=request.GET['friends'])
-            friends=users.union(user_first_names, user_last_names)
-            context['friends']=friends
+            all_users=users.union(user_first_names, user_last_names)
+            friend_statuses = {}
+            for user in all_users:
+                friend_status = Friend.objects.filter(
+                    (Q(user_1=request.user) & Q(user_2=user)) | 
+                    (Q(user_1=user) & Q(user_2=request.user))
+                ).first()
+                friend_statuses[user.id] = friend_status.status if friend_status else 'unknown'
+            
+            print(friend_statuses)
+            context['all_users'] = all_users
+            context['friend_statuses'] = friend_statuses
+            context['lst']=[1,2,3,4,5]
+
 
     return render(request, 'chat/contacts.html', context)
 

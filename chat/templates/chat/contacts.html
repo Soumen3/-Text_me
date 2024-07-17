@@ -1,29 +1,57 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}Contacts{% endblock title %}
+{% block css %}
+	<link rel="stylesheet" href="{% static "chat/css/contacts.css" %}">
+{% endblock css %}
 
 {% block body %}
 	<div class="container">
 		<h1>Contacts</h1>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<form action="" method="get">
-					<div class="form-group">
-						<input type="text" name="friends" class="form-control" id="contact-input" placeholder="Search Contacts">
-						<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="form-group d-flex gap-2 mb-4">
+						<input type="text" name="friends" class="form-control search-input" id="contact-input" placeholder="Search Contacts">
+						<button type="submit" class="btn btn-primary d-inline">Search <i class="bi bi-search"></i> </button>
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<ul class="list-group">
-					{% for friend in friends %}
-						<li class="list-group-item">
-							<a href="#">{{ friend.username }}</a>
+					{% for user in all_users %}
+						<li class="list-group-item bg-secondary item-list">
+							<div class="item-details">
+								<a href="#" class="link-underline link-underline-opacity-0 d-flex gap-2">
+									<i class="bi bi-person-circle fs-1"></i>
+									<div class="user-details">
+										<span class="profile-name text-light ">{{ user.first_name }} {{user.last_name}}</span>
+										<span class="profile-name text-secondary-emphasis">{{user.username}}</span>
+									</div>
+								</a>
+							</div>
+							<div class="item-action text-end">
+								{% for key,val  in friend_statuses.items %}
+									{% if user.id == key %}
+										{% if val == "accepted" %}
+											<span class="badge text-bg-success text-end">Friend</span> 
+										{% elif  val == "pending" %}
+											<span class="badge text-bg-warning">Pending</span>
+										{% elif  val == "rejected" %}
+											<span class="badge text-bg-danger">Rejected</span>
+										{% elif  val == "blocked" %}
+											<span class="badge badge-danger">Blocked</span> 
+										{% elif  val == "unknown" %}
+											<a href="#" class="btn btn-danger">Add Friend</a>
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+							</div>
+													
 						</li>
-					{% empty %}
-						<li class="list-group-item">No friends found</li>
-					{% endfor %}
+           	 		{% endfor %}
 				</ul>
 			</div>
 	</div>

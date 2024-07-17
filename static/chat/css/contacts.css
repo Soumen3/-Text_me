@@ -1,0 +1,14 @@
+.item-list{
+	display: flex;
+    justify-content: space-between;
+}
+
+.user-details{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.search-input{
+	width: 71%;
+}
