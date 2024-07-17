@@ -4,5 +4,27 @@
 {% block body %}
 	<div class="container">
 		<h1>Contacts</h1>
+		<div class="row">
+			<div class="col-md-4">
+				<form action="" method="get">
+					<div class="form-group">
+						<input type="text" name="friends" class="form-control" id="contact-input" placeholder="Search Contacts">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<ul class="list-group">
+					{% for friend in friends %}
+						<li class="list-group-item">
+							<a href="#">{{ friend.username }}</a>
+						</li>
+					{% empty %}
+						<li class="list-group-item">No friends found</li>
+					{% endfor %}
+				</ul>
+			</div>
 	</div>
 {% endblock body %}
