@@ -3,9 +3,9 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-	path('', views.home, name='home'),
 
 	#-----------------Chat-----------------#
+	path('', views.home, name='home'),
 	path('chat/', views.chat, name='chat'),
 	path('contacts/', views.contacts, name='contacts'),
 	path('profile/', views.profile, name='profile'),
@@ -31,4 +31,11 @@ urlpatterns = [
 
 	#-------------------Forgot Username-----------------#
 	path('forgot-username/', views.forgot_username, name='forgot_username'),
+
+
+
+	#-------------------Friend Request-----------------#
+	path('send-request/<int:user_id>/', views.send_request, name='send_request'),
+	path('accept-request/<int:user_id>/', views.accept_request, name='accept_request'),
+	path('reject-request/<int:user_id>/', views.reject_request, name='reject_request'),
 ]

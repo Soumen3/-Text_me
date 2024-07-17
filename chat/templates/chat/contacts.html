@@ -21,38 +21,177 @@
 		<div class="row">
 			<div class="col-md-5">
 				<ul class="list-group">
+
+					{% comment %} Search Friends  {% endcomment %}
 					{% for user in all_users %}
+						{% if user != request.user %}
+							<li class="list-group-item bg-secondary item-list">
+								<div class="item-details">
+									<a href="#" class="link-underline link-underline-opacity-0 d-flex gap-2">
+										<i class="bi bi-person-circle fs-1"></i>
+										<div class="user-details">
+											<span class="profile-name text-light ">{{ user.first_name }} {{user.last_name}}</span>
+											<span class="profile-name text-secondary-emphasis">{{user.username}}</span>
+										</div>
+									</a>
+								</div>
+								<div class="item-action text-end">
+									{% for key,val  in friend_statuses.items %}
+										{% if user.id == key %}
+											{% if val == "accepted" %}
+												<span class="badge text-bg-success text-end">Friend</span> 
+											{% elif  val == "pending" %}
+												<span class="badge text-bg-warning">Pending</span>
+											{% elif  val == "blocked" %}
+												<span class="badge badge-danger">Blocked</span> 
+											{% elif  val == "unknown" %}
+												<a href="" class="btn btn-danger add-friend-btn" data-user-id="{{ user.id }}">Add Friend</a>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								</div>	
+							</li>
+						{% endif %}
+           	 		{% endfor %}
+
+
+					{% comment %} Already Friends {% endcomment %}
+					{% for friend in friends %}
 						<li class="list-group-item bg-secondary item-list">
 							<div class="item-details">
 								<a href="#" class="link-underline link-underline-opacity-0 d-flex gap-2">
 									<i class="bi bi-person-circle fs-1"></i>
 									<div class="user-details">
-										<span class="profile-name text-light ">{{ user.first_name }} {{user.last_name}}</span>
-										<span class="profile-name text-secondary-emphasis">{{user.username}}</span>
+										{% if friend.user_1 == request.user %}
+											<span class="profile-name text-light ">{{ friend.user_2.first_name }} {{friend.user_2.last_name}}</span>
+											<span class="profile-name text-secondary-emphasis">{{friend.user_2.username}}</span>
+										{% else %}
+											<span class="profile-name text-light ">{{ friend.user_1.first_name }} {{friend.user_1.last_name}}</span>
+											<span class="profile-name text-secondary-emphasis">{{friend.user_1.username}}</span>
+										{% endif %}
 									</div>
 								</a>
 							</div>
 							<div class="item-action text-end">
-								{% for key,val  in friend_statuses.items %}
-									{% if user.id == key %}
-										{% if val == "accepted" %}
-											<span class="badge text-bg-success text-end">Friend</span> 
-										{% elif  val == "pending" %}
-											<span class="badge text-bg-warning">Pending</span>
-										{% elif  val == "rejected" %}
-											<span class="badge text-bg-danger">Rejected</span>
-										{% elif  val == "blocked" %}
-											<span class="badge badge-danger">Blocked</span> 
-										{% elif  val == "unknown" %}
-											<a href="#" class="btn btn-danger">Add Friend</a>
-										{% endif %}
+								{% if friend.status == "accepted" %}
+									<span class="badge text-bg-success text-end">Friend</span> 
+								{% elif  friend.status == "pending" %}
+									{% if  request.user == friend.user_2 %}
+									<a href="" class="btn btn-success accept-friend-btn" data-user-id="{{ friend.user_1.id }}">Accept</a>
+									<a href="" class="btn btn-danger reject-friend-btn" data-user-id="{{ friend.user_1.id }}">Reject</a>
+									{% else %}
+										<span class="badge text-bg-warning">Pending</span>
 									{% endif %}
-								{% endfor %}
+								{% comment %} {% elif  friend.status == "rejected" %}
+									<span class="badge text-bg-danger">Rejected</span>
+									<a href="{% url "send_request" user.id %}" class="btn btn-danger">Add Friend</a> {% endcomment %}
+								{% elif  friend.status == "blocked" %}
+									<span class="badge badge-danger">Blocked</span> 
+								{% endif %}
 							</div>
-													
 						</li>
-           	 		{% endfor %}
+					{% endfor %}
 				</ul>
 			</div>
 	</div>
 {% endblock body %}
+
+
+
+
+{% block js %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const addFriendButtons = document.querySelectorAll('.add-friend-btn');
+		const acceptFriendButtons = document.querySelectorAll('.accept-friend-btn');
+		const rejectFriendButtons = document.querySelectorAll('.reject-friend-btn');
+	
+		addFriendButtons.forEach(button => {
+			button.addEventListener('click', function(event) {
+				event.preventDefault();
+				const userId = this.getAttribute('data-user-id');
+				const buttonElement = this;
+	
+				fetch("{% url 'send_request' 0 %}".replace('0', userId), {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					body: JSON.stringify({ user_id: userId })
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						buttonElement.outerHTML = '<span class="badge text-bg-warning">Pending</span>';
+					} else {
+						alert('Failed to send friend request.');
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('An error occurred.');
+				});
+			});
+		});
+	
+		acceptFriendButtons.forEach(button => {
+			button.addEventListener('click', function(event) {
+				event.preventDefault();
+				const userId = this.getAttribute('data-user-id');
+				const buttonElement = this;
+	
+				fetch("{% url 'accept_request' 0 %}".replace('0', userId), {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					body: JSON.stringify({ user_id: userId })
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						buttonElement.parentElement.innerHTML = '<span class="badge text-bg-success">Friend</span>';
+					} else {
+						alert('Failed to accept friend request.');
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('An error occurred.');
+				});
+			});
+		});
+	
+		rejectFriendButtons.forEach(button => {
+			button.addEventListener('click', function(event) {
+				event.preventDefault();
+				const userId = this.getAttribute('data-user-id');
+				const buttonElement = this;
+	
+				fetch("{% url 'reject_request' 0 %}".replace('0', userId), {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					body: JSON.stringify({ user_id: userId })
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						buttonElement.parentElement.innerHTML = '<span class="badge text-bg-danger">Rejected</span>';
+					} else {
+						alert('Failed to reject friend request.');
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('An error occurred.');
+				});
+			});
+		});
+	});
+</script>
+{% endblock js %}

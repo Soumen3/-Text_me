@@ -7,6 +7,8 @@ from verify_email.email_handler import send_verification_email
 from django.core.mail import send_mail
 from .models import Friend
 from django.db.models import Q
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def sign_in(request):
@@ -105,10 +107,39 @@ def contacts(request):
             context['all_users'] = all_users
             context['friend_statuses'] = friend_statuses
             context['lst']=[1,2,3,4,5]
-
+        else:
+            friends = Friend.objects.filter(Q(user_1=request.user) | Q(user_2=request.user)).order_by('-id')
+            context['friends'] = friends
 
     return render(request, 'chat/contacts.html', context)
 
 @login_required(login_url='login')
 def profile(request):
     return render(request, 'chat/profile.html')
+
+@csrf_exempt
+def send_request(request, user_id):
+    if request.method == "POST":
+        user = User.objects.get(id=user_id)
+        friend = Friend(user_1=request.user, user_2=user, status='pending')
+        friend.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+def accept_request(request, user_id):
+    if request.method == "POST":
+        friend = Friend.objects.filter(Q(user_1_id=user_id) & Q(user_2=request.user)).first()
+        friend.status = 'accepted'
+        friend.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+def reject_request(request, user_id):
+    if request.method == "POST":
+        friend = Friend.objects.filter(Q(user_1_id=user_id) & Q(user_2=request.user)).first()
+        friend.status = 'rejected'
+        friend.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
