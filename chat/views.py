@@ -5,7 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from verify_email.email_handler import send_verification_email
 from django.core.mail import send_mail
-
+from .models import Friend
+from django.db.models import Q
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def sign_in(request):
@@ -91,11 +94,52 @@ def contacts(request):
             users= User.objects.filter(username__icontains=request.GET['friends'])
             user_first_names=User.objects.filter(first_name__icontains=request.GET['friends'])
             user_last_names=User.objects.filter(last_name__icontains=request.GET['friends'])
-            friends=users.union(user_first_names, user_last_names)
-            context['friends']=friends
+            all_users=users.union(user_first_names, user_last_names)
+            friend_statuses = {}
+            for user in all_users:
+                friend_status = Friend.objects.filter(
+                    (Q(user_1=request.user) & Q(user_2=user)) | 
+                    (Q(user_1=user) & Q(user_2=request.user))
+                ).first()
+                friend_statuses[user.id] = friend_status.status if friend_status else 'unknown'
+            
+            print(friend_statuses)
+            context['all_users'] = all_users
+            context['friend_statuses'] = friend_statuses
+            context['lst']=[1,2,3,4,5]
+        else:
+            friends = Friend.objects.filter(Q(user_1=request.user) | Q(user_2=request.user)).order_by('-id')
+            context['friends'] = friends
 
     return render(request, 'chat/contacts.html', context)
 
 @login_required(login_url='login')
 def profile(request):
     return render(request, 'chat/profile.html')
+
+@csrf_exempt
+def send_request(request, user_id):
+    if request.method == "POST":
+        user = User.objects.get(id=user_id)
+        friend = Friend(user_1=request.user, user_2=user, status='pending')
+        friend.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+def accept_request(request, user_id):
+    if request.method == "POST":
+        friend = Friend.objects.filter(Q(user_1_id=user_id) & Q(user_2=request.user)).first()
+        friend.status = 'accepted'
+        friend.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+def reject_request(request, user_id):
+    if request.method == "POST":
+        friend = Friend.objects.filter(Q(user_1_id=user_id) & Q(user_2=request.user)).first()
+        friend.status = 'rejected'
+        friend.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
