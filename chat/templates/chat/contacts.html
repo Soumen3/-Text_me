@@ -27,8 +27,7 @@
 						{% if user != request.user %}
 							<li class="list-group-item bg-secondary item-list">
 								<div class="item-details">
-									<a href="#" class="link-underline link-underline-opacity-0 d-flex gap-2">
-										<i class="bi bi-person-circle fs-1"></i>
+									<a href="" class="link-underline link-underline-opacity-0 d-flex gap-2">
 										<div class="user-details">
 											<span class="profile-name text-light ">{{ user.first_name }} {{user.last_name}}</span>
 											<span class="profile-name text-secondary-emphasis">{{user.username}}</span>
@@ -56,16 +55,34 @@
 
 
 					{% comment %} Already Friends {% endcomment %}
+
 					{% for friend in friends %}
-						<li class="list-group-item bg-secondary item-list">
+					{% comment %} <div class="ditails">
+						<h1>{{ friend.user_1.username }}'s Profile</h1>
+						<p>Avatar: {{ friend.user_1.userprofile.avatar.file_path }}</p>
+						<p>About: {{ friend.user_1.userprofile.about }}</p>
+						<p>Phone: {{ friend.user_1.userprofile.phone }}</p>
+						<p>Country: {{ friend.user_1.userprofile.country }}</p>
+						<p>Birth Date: {{ friend.user_1.userprofile.birth_date }}</p>
+					
+						<h1>{{ friend.user_2.username }}'s Profile</h1>
+						<p>Avatar: {{ friend.user_2.userprofile.avatar.file_path }}</p>
+						<p>About: {{ friend.user_2.userprofile.about }}</p>
+						<p>Phone: {{ friend.user_2.userprofile.phone }}</p>
+						<p>Country: {{ friend.user_2.userprofile.country }}</p>
+						<p>Birth Date: {{ friend.user_2.userprofile.birth_date }}</p>
+					</div> {% endcomment %}
+
+					<li class="list-group-item bg-secondary item-list">
 							<div class="item-details">
-								<a href="#" class="link-underline link-underline-opacity-0 d-flex gap-2">
-									<i class="bi bi-person-circle fs-1"></i>
+								<a href="" class="link-underline link-underline-opacity-0 d-flex gap-2">
 									<div class="user-details">
 										{% if friend.user_1 == request.user %}
+											<img src="{{friend.user_2.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
 											<span class="profile-name text-light ">{{ friend.user_2.first_name }} {{friend.user_2.last_name}}</span>
 											<span class="profile-name text-secondary-emphasis">{{friend.user_2.username}}</span>
 										{% else %}
+											<img src="{{friend.user_1.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
 											<span class="profile-name text-light ">{{ friend.user_1.first_name }} {{friend.user_1.last_name}}</span>
 											<span class="profile-name text-secondary-emphasis">{{friend.user_1.username}}</span>
 										{% endif %}
@@ -93,6 +110,7 @@
 					{% endfor %}
 				</ul>
 			</div>
+		</div>
 	</div>
 {% endblock body %}
 

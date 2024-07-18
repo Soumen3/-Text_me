@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+    <h1>Change Avatar</h1>
+    <div class="avatars d-flex">
+        <form id="avatarForm" action="" method="post">{% csrf_token %}
+            {% for image in avatars %}
+                <img src="{{ image }}" alt="{{ image }}" class="img-thumbnail avatar-image" style="width: 100px; height: 100px;" data-image="{{ image.id }}">
+            {% endfor %}
+            <input type="hidden" name="selected_avatar" id="selectedAvatar">
+            <input type="submit" value="Change Avatar" class="btn btn-primary" style="display: none;">
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded and parsed');
+            document.querySelectorAll('.avatar-image').forEach(img => {
+                console.log('Image found:', img);
+                img.addEventListener('click', function() {
+                    console.log('Image clicked:', this.getAttribute('data-image'));
+                    document.getElementById('selectedAvatar').value = this.getAttribute('data-image');
+                    document.getElementById('avatarForm').submit();
+                });
+            });
+        });
+    </script>
+{% endblock body %}

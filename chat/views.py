@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomLoginForm, ForgotUsernameForm
+from .forms import CustomUserCreationForm, CustomLoginForm, ForgotUsernameForm, ProfileUpadateForm
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from verify_email.email_handler import send_verification_email
 from django.core.mail import send_mail
-from .models import Friend
+from .models import Friend, UserProfile, Avatar
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -106,16 +106,72 @@ def contacts(request):
             print(friend_statuses)
             context['all_users'] = all_users
             context['friend_statuses'] = friend_statuses
-            context['lst']=[1,2,3,4,5]
         else:
             friends = Friend.objects.filter(Q(user_1=request.user) | Q(user_2=request.user)).order_by('-id')
             context['friends'] = friends
+            profiles = UserProfile.objects.filter(user__in=[friend.user_1 if friend.user_1 != request.user else friend.user_2 for friend in friends])
+            context['profiles'] = profiles
+            
+            
 
     return render(request, 'chat/contacts.html', context)
 
 @login_required(login_url='login')
 def profile(request):
-    return render(request, 'chat/profile.html')
+
+    context = {}
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        profile = UserProfile(user=request.user, avatar=Avatar.objects.get(id=10))
+        profile.save()
+    context['profile'] = profile
+
+    return render(request, 'chat/profile.html', context)
+
+@login_required(login_url='login')
+def edit_profile(request, user_id):
+    if request.user.id != user_id:
+        return redirect('home')
+    
+    context = {}
+    if request.method == 'POST':
+        profile = UserProfile.objects.get(user=request.user)
+        updateForm = ProfileUpadateForm(request.POST, request.FILES, instance=profile)
+        if updateForm.is_valid():
+            updateForm.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Error updating profile')
+    profile = UserProfile.objects.get(user=request.user)
+    updateForm = ProfileUpadateForm(instance=profile)
+    context['updateForm'] = updateForm
+    return render(request, 'chat/edit_profile.html', context)
+
+
+@login_required(login_url='login')
+def change_avatar(request, user_id):
+    context= {}
+    if request.user.id != user_id:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        print(request.POST)
+        avatar_id = request.POST.get('selected_avatar')
+        print(avatar_id)
+        profile = UserProfile.objects.get(user=request.user)
+        profile.avatar = Avatar.objects.get(id=avatar_id)
+        profile.save()
+        return redirect('profile')
+    avatars = Avatar.objects.all()
+    context['avatars'] = avatars
+    return render(request, 'chat/change_avatar.html', context)
+
+
+
+
+
 
 @csrf_exempt
 def send_request(request, user_id):

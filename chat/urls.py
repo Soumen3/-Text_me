@@ -9,6 +9,8 @@ urlpatterns = [
 	path('chat/', views.chat, name='chat'),
 	path('contacts/', views.contacts, name='contacts'),
 	path('profile/', views.profile, name='profile'),
+	path('edit-profile/<int:user_id>/', views.edit_profile, name='edit_profile'),
+	path('edit-avatar/<int:user_id>/', views.change_avatar, name='edit_avatar'),
 
 	#-----------------Authentication-----------------#
 	path('accounts/login/', views.sign_in, name='login'),
