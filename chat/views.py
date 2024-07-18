@@ -106,10 +106,13 @@ def contacts(request):
             print(friend_statuses)
             context['all_users'] = all_users
             context['friend_statuses'] = friend_statuses
-            context['lst']=[1,2,3,4,5]
         else:
             friends = Friend.objects.filter(Q(user_1=request.user) | Q(user_2=request.user)).order_by('-id')
             context['friends'] = friends
+            profiles = UserProfile.objects.filter(user__in=[friend.user_1 if friend.user_1 != request.user else friend.user_2 for friend in friends])
+            context['profiles'] = profiles
+            
+            
 
     return render(request, 'chat/contacts.html', context)
 
