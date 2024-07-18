@@ -1,6 +1,6 @@
 document.addEventListener('mousemove', function(e) {
-    const cursor = document.querySelector('.cursor');
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    const cursor = document.querySelector('.cursor');  
+    cursor.style.transform = `translate(${e.pageX}px, ${e.pageY}px)`;
 });
 
 document.addEventListener('mouseleave', function() {
