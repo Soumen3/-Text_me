@@ -7,7 +7,10 @@ urlpatterns = [
 	#-----------------Chat-----------------#
 	path('', views.home, name='home'),
 	path('chat/', views.chat, name='chat'),
-	path('contacts/', views.contacts, name='contacts'),
+	path('contacts/friends/', views.contacts, name='contacts'),
+	path('contacts/friend-request/', views.friend_request, name='friend_request'),
+	path('contacts/friend-request-send/', views.friend_request_send, name='friend_request_send'),
+
 	path('profile/', views.profile, name='profile'),
 	path('edit-profile/<int:user_id>/', views.edit_profile, name='edit_profile'),
 	path('edit-avatar/<int:user_id>/', views.change_avatar, name='edit_avatar'),
@@ -40,4 +43,5 @@ urlpatterns = [
 	path('send-request/<int:user_id>/', views.send_request, name='send_request'),
 	path('accept-request/<int:user_id>/', views.accept_request, name='accept_request'),
 	path('reject-request/<int:user_id>/', views.reject_request, name='reject_request'),
+	path('cancel-request/<int:user_id>/', views.cancel_request, name='cancel_request'),
 ]

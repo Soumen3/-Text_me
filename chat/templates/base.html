@@ -26,7 +26,7 @@
 						<div class="navbar-nav main-nav-item text-white">
 							<a class="nav-link {% if request.path == '/' %} active {% endif %}" aria-current="page" href="{% url "home" %}">Home</a>
 							<a class="nav-link {% if request.path == '/chat/' %} active {% endif %} " href="{% url "chat" %}">Chat</a>
-							<a class="nav-link {% if request.path == '/contacts/' %} active {% endif %}" href="{% url "contacts" %}">Contacts</a>
+							<a class="nav-link {% if request.path == '/contacts/friends/' %} active {% endif %}" href="{% url "contacts" %}">Contacts</a>
 							<a class="nav-link {% if request.path == '/profile/' %} active {% endif %}" href="{% url "profile" %}">Profile</a>
 						</div>
 						<div class="navbar-nav auth-items">
@@ -70,7 +70,11 @@
 				// Fade out effect when navigating away
 				document.querySelectorAll('a').forEach(function(link) {
 					link.addEventListener('click', function(event) {
-						if (this.classList.contains('add-friend-btn') || this.classList.contains('accept-friend-btn') || this.classList.contains('reject-friend-btn')) {
+						if (this.classList.contains('add-friend-btn') || 
+							this.classList.contains('accept-friend-btn') || 
+							this.classList.contains('reject-friend-btn') ||
+							this.classList.contains('cancel-request-btn')
+						){
 							return;
 						}
 						event.preventDefault();

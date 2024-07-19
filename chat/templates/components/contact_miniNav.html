@@ -1,0 +1,13 @@
+
+{% comment %} mini navbar  {% endcomment %}
+<ul class="nav justify-content-center">
+	<li class="nav-item">
+		<a class="nav-link {% if request.path == '/contacts/friends/' %} active {% endif %}" href="{% url "contacts" %}">Friends</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link {% if request.path == '/contacts/friend-request/' %} active {% endif %}" href="{% url "friend_request" %}">Friends Request</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link {% if request.path == '/contacts/friend-request-send/' %} active {% endif %}" href="{% url "friend_request_send" %}" href="">Request Send</a>
+	</li>
+</ul>

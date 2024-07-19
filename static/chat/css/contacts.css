@@ -5,10 +5,40 @@
 
 .user-details{
 	display: flex;
-	flex-direction: column;
 	justify-content: space-around;
 }
 
 .search-input{
 	width: 71%;
+}
+
+.details{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.profile-name{
+	font-weight: 600;
+}
+
+.item-action{
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+
+.main-content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+}
+
+.user-card{
+	width: fit-content;
+}
+
+.user-card .item-list{
+	gap: 1rem;
 }
