@@ -118,14 +118,20 @@ def contacts(request):
 
 @login_required(login_url='login')
 def profile(request):
-
     context = {}
+
     try:
         profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
         profile = UserProfile(user=request.user, avatar=Avatar.objects.get(id=10))
         profile.save()
     context['profile'] = profile
+
+    all_fields_set = all(getattr(profile, field.name) for field in UserProfile._meta.get_fields())
+    if not all_fields_set:
+        context['all_fields_set'] = False
+    else:
+        context['all_fields_set'] = True
 
     return render(request, 'chat/profile.html', context)
 
