@@ -1,24 +1,80 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block body %}
-	<div class="container">
-		<h1>Profile</h1>
-		<div class="row">
-			<div class="col-md-6">
-				<img src="{{profile.avatar}}" alt="" class="img-fluid avatar-image" style="width: 200px; height: 200px;">
-				<p>Username: <strong>{{ user.username }}</strong></p>
-				<p>Email: <strong>{{ user.email }}</strong></p>
-				<p>First Name: <strong>{{ user.first_name }}</strong></p>
-				<p>Last Name: <strong>{{ user.last_name }}</strong></p>
-				<p>Last Login: <strong>{{ user.last_login }}</strong></p>
-				<p>Date Joined: <strong>{{ user.date_joined }}</strong></p>
-			</div>
-			<p><a href="{% url 'logout' %}">Logout</a></p>
-			<p><a href="{% url 'password_change' %}">Reset Password</a></p>
+{% block title %}{{user.first_name}} {{user.last_name}}{% endblock title %}
 
-			<p><a href="{% url "edit_profile" request.user.id %}">Edit prifile</a></p>
-			<p><a href="{% url "edit_avatar" request.user.id %}">Change Avatar</a></p>
+{% block css %}
+	<link rel="stylesheet" href="{% static "chat/css/profile.css" %}">
+{% endblock css %}
+
+{% block body %}
+	<div class="container main my-3 py-3 rounded">
+		<div class="image-sec">
+			<div class="cover-img">
+				<img src="{% static "chat/media/cover.jpeg" %}" alt="" class='img-fluid cover'>
+			</div>
+			<div class="avatar-img">
+				<img src="{{profile.avatar}}" alt="" class="img-fluid avatar-image" style="width: 200px; height: 200px;">
+				<a href="{% url "edit_avatar" request.user.id %}" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></a>
+			</div>
+		</div>
+
+		<div class="ditails-sec">
+
+			<div class="notification w-100 text-center my-5">
+				{% if not all_fields_set %}
+					<p><a href="{% url "edit_profile" request.user.id %}" class="btn btn-info">Complete Your Profile</a></p>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="name-details col-sm-6">
+					<p class="fs-3 fw-bold name">{{user.first_name}} {{user.last_name}}</p>
+					<p class="fs-6 username">@{{user.username}}</p>
+				</div>
+				<div class="col-sm-6">
+					<div class="contact-details">
+						<a href="{% url "edit_profile" request.user.id %}" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></a>
+						<p class="fs-6">Email: {% if user.email %}<span>{{user.email}}</span> {% else %} <span class="unavailable">Unavailable</span> {% endif %} </p>
+						<p class="fs-6">Phone: {% if user.userprofile.phone %}<span>{{user.userprofile.phone}}</span> {% else %}<span class="unavailable">Unavailable</span>{% endif %}  </p>
+						<p class="fs-6">Country: {% if user.userprofile.country %}<span>{{user.userprofile.country}}</span>{% else %}<span class="unavailable">Unavailable</span>{% endif %} </p>
+						<p class="fs-6">Birth Date: <span>{{user.userprofile.birth_date}}</span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="about-sec">
+				<p class="fs-5">About</p>
+				<p class="fs-6 about"> 
+					{% if user.userprofile.about %}  
+						{{user.userprofile.about}} 
+					{% else %} 
+						<a href="{% url "edit_profile" request.user.id %}" class="link-secondary link-offset-2 link-underline link-underline-opacity-0">Write about you....</a> 
+					{% endif %}
+				</p>
+			</div>
+
+			<div class="login-details">
+				<div class="row">
+					<div class="col-sm-6 log-details">
+						<p class="fs-6">Last Login: <span>{{ user.last_login }}</span></p>
+					</div>
+					<div class="col-sm-6 log-details">
+						<p class="fs-6">Date Joined: <span>{{ user.date_joined }}</span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="action">
+				<div class="row">
+					<div class="col-sm-6">
+						<a href="{% url 'password_change' %}" class="btn btn-primary">Reset Password</a>
+					</div>
+					<div class="col-sm-6 text-end">
+						<a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+	
 {% endblock body %}
