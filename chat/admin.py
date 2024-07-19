@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Friend, UserProfile, Avatar
+from .models import Friend, UserProfile, Avatar, Site
 
 # Register your models here.
 
@@ -32,3 +32,6 @@ class AvatarAdmin(admin.ModelAdmin):
     list_display = ('id', 'file_path', 'description')
     search_fields = ('description', 'file_path')
     list_editable = ('file_path', 'description')
+
+
+admin.site.register(Site)
