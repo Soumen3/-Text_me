@@ -10,7 +10,7 @@
 
 		<div class="row">
 			<div class="col-md-5">
-				<form action="" method="get">
+				<form action="{% url "contacts" %}" method="get">
 					<div class="form-group d-flex gap-2 mb-4">
 						<input type="text" name="friends" class="form-control search-input" id="contact-input" placeholder="Search Contacts">
 						<button type="submit" class="btn btn-primary d-inline">Search <i class="bi bi-search"></i> </button>
@@ -22,42 +22,8 @@
 		{% include "components\contact_miniNav.html" %}
 
 		<div class="row main-content">
-				<ul class="list-group user-card">
 
-					{% comment %} Search Friends  {% endcomment %}
-					{% for user in all_users %}
-						{% if user != request.user %}
-							<li class="list-group-item bg-secondary item-list">
-								<div class="item-details">
-									<a href="" class="link-underline link-underline-opacity-0 d-flex gap-2">
-										<img src="{{user.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;">
-										<div class="user-details">
-											<div class="details">
-												<span class="profile-name text-light ">{{ user.first_name }} {{user.last_name}}</span>
-												<span class="profile-username text-secondary-emphasis">{{user.username}}</span>
-												<span class="profile-about text-light">{{user.userprofile.about}}</span>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="item-action text-end">
-									{% for key,val  in friend_statuses.items %}
-										{% if user.id == key %}
-											{% if val == "accepted" %}
-												<span class="badge text-bg-success text-end">Friend</span> 
-											{% elif  val == "pending" %}
-												<span class="badge text-bg-warning">Pending</span>
-											{% elif  val == "blocked" %}
-												<span class="badge badge-danger">Blocked</span> 
-											{% elif  val == "unknown" %}
-												<a href="" class="btn btn-danger add-friend-btn" data-user-id="{{ user.id }}">Add Friend</a>
-											{% endif %}
-										{% endif %}
-									{% endfor %}
-								</div>	
-							</li>
-						{% endif %}
-           	 		{% endfor %}
+				<ul class="list-group user-card">
 
 
 					{% comment %} Already Friends {% endcomment %}
@@ -102,19 +68,12 @@
 									</div>
 								</a>
 							</div>
-							<div class="item-action text-end">
+							<div class="item-action text-end flex">
 								{% if friend.status == "accepted" %}
 									<span class="badge text-bg-success text-end">Friend</span> 
 								{% elif  friend.status == "pending" %}
-									{% if  request.user == friend.user_2 %}
-									<a href="" class="btn btn-success accept-friend-btn" data-user-id="{{ friend.user_1.id }}">Accept</a>
-									<a href="" class="btn btn-danger reject-friend-btn" data-user-id="{{ friend.user_1.id }}">Reject</a>
-									{% else %}
-										<span class="badge text-bg-warning">Pending</span>
-									{% endif %}
-								{% comment %} {% elif  friend.status == "rejected" %}
-									<span class="badge text-bg-danger">Rejected</span>
-									<a href="{% url "send_request" user.id %}" class="btn btn-danger">Add Friend</a> {% endcomment %}
+									<span class="badge  text-bg-warning ">Pending</span> 
+									<a href="" class="btn btn-danger cancel-request-btn" data-user-id="{{ friend.user_2.id }}">Cancel</a>
 								{% elif  friend.status == "blocked" %}
 									<span class="badge badge-danger">Blocked</span> 
 								{% endif %}
@@ -122,7 +81,7 @@
 						</li>
 					{% endfor %}
 				</ul>
-			</div>
+		</div>
 	</div>
 
 {% endblock body %}

@@ -102,19 +102,35 @@ def contacts(request):
                     (Q(user_1=user) & Q(user_2=request.user))
                 ).first()
                 friend_statuses[user.id] = friend_status.status if friend_status else 'unknown'
-            
-            print(friend_statuses)
+                
             context['all_users'] = all_users
             context['friend_statuses'] = friend_statuses
         else:
-            friends = Friend.objects.filter(Q(user_1=request.user) | Q(user_2=request.user)).order_by('-id')
+            friends = Friend.objects.filter(Q(user_1=request.user, status="accepted") | Q(user_2=request.user, status="accepted")).order_by('-id')
             context['friends'] = friends
             profiles = UserProfile.objects.filter(user__in=[friend.user_1 if friend.user_1 != request.user else friend.user_2 for friend in friends])
             context['profiles'] = profiles
             
-            
-
     return render(request, 'chat/contacts.html', context)
+
+@login_required(login_url='login')
+def friend_request(request):
+    context={}
+    friends = Friend.objects.filter(Q(user_2=request.user, status='pending')).order_by('-id')
+    context['friends'] = friends
+
+    return render(request, 'chat/friend_request.html', context)
+
+
+@login_required(login_url='login')
+def friend_request_send(request):
+    context={}
+    friends = Friend.objects.filter(Q(user_1=request.user, status='pending')).order_by('-id')
+    context['friends'] = friends
+
+    return render(request, 'chat/friend_request_send.html', context)
+
+
 
 @login_required(login_url='login')
 def profile(request):
@@ -202,6 +218,15 @@ def reject_request(request, user_id):
     if request.method == "POST":
         friend = Friend.objects.filter(Q(user_1_id=user_id) & Q(user_2=request.user)).first()
         friend.status = 'rejected'
+        friend.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+def cancel_request(request, user_id):
+    print(user_id)
+    if request.method == "POST":
+        friend = Friend.objects.filter(Q(user_1=request.user) & Q(user_2_id=user_id)).first()
         friend.delete()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
