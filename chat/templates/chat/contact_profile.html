@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static "chat\css\contact_profile.css" %}">
+{% endblock css %}
+
+{% block body %}
+<div class="container main my-3 py-3 rounded">
+	<div class="image-sec">
+		<div class="cover-img">
+			<img src="{% static "chat/media/cover.jpeg" %}" alt="" class='img-fluid cover'>
+		</div>
+		<div class="avatar-img">
+			<img src="{{profile.avatar}}" alt="" class="img-fluid avatar-image" style="width: 200px; height: 200px;">
+		</div>
+	</div>
+
+	<div class="ditails-sec">
+
+		<div class="row">
+			<div class="name-details col-sm-6">
+				<p class="fs-3 fw-bold name">{{user.first_name}} {{user.last_name}}</p>
+				<p class="fs-6 username">@{{user.username}}</p>
+				<p class="chat-button"><a href="" class="btn btn-success">Message</a></p>
+			</div>
+			<div class="col-sm-6">
+				<div class="contact-details">
+					<p class="fs-6">Email: {% if user.email %}<span>{{user.email}}</span> {% else %} <span class="unavailable">Unavailable</span> {% endif %} </p>
+					<p class="fs-6">Phone: {% if user.userprofile.phone %}<span>{{user.userprofile.phone}}</span> {% else %}<span class="unavailable">Unavailable</span>{% endif %}  </p>
+					<p class="fs-6">Country: {% if user.userprofile.country %}<span>{{user.userprofile.country}}</span>{% else %}<span class="unavailable">Unavailable</span>{% endif %} </p>
+					<p class="fs-6">Birth Date: <span>{{user.userprofile.birth_date}}</span></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="about-sec">
+			{% if user.userprofile.about %}  
+				<p class="fs-5">About</p>
+				<p class="fs-6 about"> 
+					{{user.userprofile.about}} 
+			{% endif %}
+			</p>
+		</div>
+
+		<div class="login-details">
+			<div class="row">
+				<div class="col-sm-6 log-details">
+					<p class="fs-6">Last Login: <span>{{ user.last_login }}</span></p>
+				</div>
+				<div class="col-sm-6 log-details">
+					<p class="fs-6">Date Joined: <span>{{ user.date_joined }}</span></p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% include "components/footer.html" %}
+{% endblock body %}

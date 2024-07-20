@@ -190,8 +190,14 @@ def change_avatar(request, user_id):
     context['avatars'] = avatars
     return render(request, 'chat/change_avatar.html', context)
 
-
-
+@login_required(login_url='login')
+def contact_profile(request, username, id):
+    context={}
+    contact_user= User.objects.get(username=username, id=id)
+    context['user']=contact_user
+    profile = UserProfile.objects.get(user=contact_user)
+    context['profile']=profile
+    return render(request, 'chat/contact_profile.html', context)
 
 
 

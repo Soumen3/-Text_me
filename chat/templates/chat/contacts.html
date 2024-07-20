@@ -29,7 +29,7 @@
 						{% if user != request.user %}
 							<li class="list-group-item bg-secondary item-list">
 								<div class="item-details">
-									<a href="" class="link-underline link-underline-opacity-0 d-flex gap-2">
+									<a href="{% url "contact_profile" user.username user.id %}" class="link-underline link-underline-opacity-0 d-flex gap-2">
 										<img src="{{user.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;">
 										<div class="user-details">
 											<div class="details">
@@ -44,7 +44,8 @@
 									{% for key,val  in friend_statuses.items %}
 										{% if user.id == key %}
 											{% if val == "accepted" %}
-												<span class="badge text-bg-success text-end">Friend</span> 
+												<span class="badge text-bg-info">Friend</span> 
+												<a href="" class="btn btn-success">Message</a>
 											{% elif  val == "pending" %}
 												<span class="badge text-bg-warning">Pending</span>
 											{% elif  val == "blocked" %}
@@ -81,9 +82,9 @@
 
 						<li class="list-group-item bg-secondary item-list">
 							<div class="item-details">
-								<a href="" class="link-underline link-underline-opacity-0 d-flex gap-2">
-									<div class="user-details">
-										{% if friend.user_1 == request.user %}
+								{% if friend.user_1 == request.user %}
+									<a href="{% url "contact_profile" friend.user_2.username friend.user_2.id %}" class="link-underline link-underline-opacity-0 d-flex gap-2">
+										<div class="user-details">
 											<img src="{{friend.user_2.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
 											<div class="details">
 												<span class="profile-name text-light ">{{ friend.user_2.first_name }} {{friend.user_2.last_name}}</span>
@@ -91,20 +92,25 @@
 												<span class="profile-about text-light">{{friend.user_2.userprofile.about}}</span>
 												{% comment %} <span class="profile-about text-secondary">{{friend.user_2.username}}</span> {% endcomment %}
 											</div>
-										{% else %}
-											<img src="{{friend.user_1.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
-											<div class="details">
-												<span class="profile-name text-light ">{{ friend.user_1.first_name }} {{friend.user_1.last_name}}</span>
-												<span class="profile-username text-secondary-emphasis">{{friend.user_1.username}}</span>
-												<span class="profile-about text-secondary">{{ friend.user_1.userprofile.about }}</span>
+										</div>
+									</a>
+								{% else %}
+										<a href="{% url "contact_profile" friend.user_1.username friend.user_1.id %}" class="link-underline link-underline-opacity-0 d-flex gap-2">
+											<div class="user-details">
+												<img src="{{friend.user_1.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
+												<div class="details">
+													<span class="profile-name text-light ">{{ friend.user_1.first_name }} {{friend.user_1.last_name}}</span>
+													<span class="profile-username text-secondary-emphasis">{{friend.user_1.username}}</span>
+													<span class="profile-about text-secondary">{{ friend.user_1.userprofile.about }}</span>
+												</div>
 											</div>
-										{% endif %}
-									</div>
-								</a>
+										</a>
+								{% endif %}
 							</div>
 							<div class="item-action text-end">
 								{% if friend.status == "accepted" %}
-									<span class="badge text-bg-success text-end">Friend</span> 
+									<span class="badge text-bg-info">Friend</span> 
+									<a href="" class="btn btn-success">Message</a>
 								{% elif  friend.status == "pending" %}
 									{% if  request.user == friend.user_2 %}
 									<a href="" class="btn btn-success accept-friend-btn" data-user-id="{{ friend.user_1.id }}">Accept</a>
