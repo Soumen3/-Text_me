@@ -47,24 +47,15 @@
 
 						<li class="list-group-item bg-secondary item-list">
 							<div class="item-details">
-								<a href="" class="link-underline link-underline-opacity-0 d-flex gap-2">
+								<a href="{% url "contact_profile" friend.user_2.username friend.user_2.id %}" class="link-underline link-underline-opacity-0 d-flex gap-2">
 									<div class="user-details">
-										{% if friend.user_1 == request.user %}
-											<img src="{{friend.user_2.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
-											<div class="details">
-												<span class="profile-name text-light ">{{ friend.user_2.first_name }} {{friend.user_2.last_name}}</span>
-												<span class="profile-username text-secondary-emphasis">{{friend.user_2.username}}</span>
-												<span class="profile-about text-light">{{friend.user_2.userprofile.about}}</span>
-												{% comment %} <span class="profile-about text-secondary">{{friend.user_2.username}}</span> {% endcomment %}
-											</div>
-										{% else %}
-											<img src="{{friend.user_1.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
-											<div class="details">
-												<span class="profile-name text-light ">{{ friend.user_1.first_name }} {{friend.user_1.last_name}}</span>
-												<span class="profile-username text-secondary-emphasis">{{friend.user_1.username}}</span>
-												<span class="profile-about text-secondary">{{ friend.user_1.userprofile.about }}</span>
-											</div>
-										{% endif %}
+										<img src="{{friend.user_2.userprofile.avatar.file_path}}" alt="" class="img-fluid avatar-image" style="width: 100px; height: 100px;" >
+										<div class="details">
+											<span class="profile-name text-light ">{{ friend.user_2.first_name }} {{friend.user_2.last_name}}</span>
+											<span class="profile-username text-secondary-emphasis">{{friend.user_2.username}}</span>
+											<span class="profile-about text-light">{{friend.user_2.userprofile.about}}</span>
+											{% comment %} <span class="profile-about text-secondary">{{friend.user_2.username}}</span> {% endcomment %}
+										</div>
 									</div>
 								</a>
 							</div>

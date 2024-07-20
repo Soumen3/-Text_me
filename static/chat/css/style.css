@@ -37,7 +37,7 @@ a.nav-link{
 a.nav-link:hover{
 	color: #f60e0e !important;
 	scale: 1.1;
-	transition: scale 0.1s ease;
+	transition: scale 0.3s ease;
 }
 
 .nav-container{
