@@ -7,7 +7,7 @@
     <div class="avatars d-flex">
         <form id="avatarForm" action="" method="post">{% csrf_token %}
             {% for image in avatars %}
-                <img src="{{ image }}" alt="{{ image }}" class="img-thumbnail avatar-image" style="width: 100px; height: 100px;" data-image="{{ image.id }}">
+                <img src="{{ image }}" alt="{{ image }}" class="img-thumbnail avatar-image" style="width: 12rem; height: 12rem;" data-image="{{ image.id }}">
             {% endfor %}
             <input type="hidden" name="selected_avatar" id="selectedAvatar">
             <input type="submit" value="Change Avatar" class="btn btn-primary" style="display: none;">
