@@ -1,8 +1,43 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static "chat/css/home.css" %}">
+{% endblock css %}
 
 {% block body %}
 
-	<div class="fs-1">Home</div>
+	<div class="main">
+		<div class="tag-lines text-center">
+			<p class="tag text display-1">Connect with the world</p>
+			<p class="tag-line text fs-4">Our powerful chatting platform makes it easy to connect with friends, family, and colleagues.</p>
+			<a href="" class="chat-btn btn btn-dark">Start Chatting <i class="bi bi-chat-left-text"></i></a>
+		</div>
+		<div class="features">
+			<div class="real-time-msg feature">
+				<div class="msg-icon icon">
+					<i class="bi bi-chat-left-text"></i>
+				</div>
+				<h3>Real-time messaging</h3>
+				<p>Instant messaging with your friends and family. Never miss a beat.</p>
+			</div>
+			<div class="group-chat feature">
+				<div class="group-icon icon">
+					<i class="bi bi-people"></i>
+				</div>
+				<h3>Group chat</h3>
+				<p>Chat with multiple people at once. Share your thoughts with the world.</p>
+			
+			</div>
+			<div class="end-to-end-encryption feature">
+				<div class="encryption-icon icon">
+					<i class="bi bi-shield-lock"></i>
+				</div>
+				<h3>End-to-end encryption</h3>
+				<p>Your messages are secure and private. Only you and the recipient can read them.</p>
+			</div>
+		</div>
+	</div>
 
 	{% include "components/footer.html" %}
 {% endblock body %}

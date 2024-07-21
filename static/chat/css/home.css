@@ -1,0 +1,58 @@
+.tag-lines{
+	/* color: #dcdcdc; */
+	background: linear-gradient(90deg, #000000, #ffffff);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	min-height: 80vh;
+	display: grid;
+	align-content: center;
+}
+
+.tag{
+	font-weight:900;
+	
+}
+
+.tag-line{
+	max-width: 50%;
+	justify-self: center;
+}
+@media screen and (max-width: 900px){
+	.tag-line{
+		max-width: 80%;
+	}
+
+}
+
+.chat-btn{
+	width: fit-content;
+	background-color: #000000;
+	justify-self: center;
+}
+
+.icon{
+	font-size: 1.5em;
+	color: black;
+	margin-bottom: 1rem;
+	background-color: #ffffff;
+	width: fit-content;
+	border-radius: 50%;
+	padding: 0.1em 0.4em;
+}
+
+.features{
+	display: flex;
+	padding-top: 4rem;
+}
+
+.feature{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.feature p{
+	text-align: center;
+	color: #8d8b8b;
+}
