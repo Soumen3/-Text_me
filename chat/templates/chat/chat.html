@@ -6,4 +6,9 @@
 		<h1>Chat</h1>
 	</div>
 
+	<button  onClick="sendMsg()" class="btn btn-danger">Send to server</button>
 {% endblock body %}
+
+{% block js %}
+	<script src="{% static 'chat/js/websocket.js' %}"></script>
+{% endblock js %}
