@@ -84,7 +84,14 @@ def home(request):
 
 @login_required(login_url='login')
 def chat(request):
-    return render(request, 'chat/chat.html')
+    context = {}
+    friends = Friend.objects.filter(Q(user_1=request.user, status="accepted") | Q(user_2=request.user, status="accepted")).order_by('-id')
+    context['friends'] = friends
+    profiles = User.objects.filter(id__in=[friend.user_1.id if friend.user_1 != request.user else friend.user_2.id for friend in friends])
+    context['friend_profiles'] = profiles
+    print(profiles)
+    print(friends)
+    return render(request, 'chat/chat.html', context)
 
 @login_required(login_url='login')
 def contacts(request):

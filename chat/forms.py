@@ -27,7 +27,8 @@ class CustomLoginForm(AuthenticationForm):
             attrs={
                     'class': 'form-control', 
                     'placeholder': 'Username', 
-                    'required': 'required'
+                    'required': 'required',
+                    'autofocus': 'autofocus'
                 }
         ))
     password = forms.CharField(widget=forms.PasswordInput(
