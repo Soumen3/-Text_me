@@ -1,6 +1,6 @@
 .back-top {
     background: linear-gradient(45deg, #323233, #d2cdd2);
-    height: 15vh;
+    height: 10vh;
     z-index: -1;
   }
   
@@ -44,7 +44,7 @@
   
   
   .contacts {
-    background-color: #ffffff;
+    background-color: #4f4d4d;
     min-height: 600px;
   }
 
@@ -83,7 +83,6 @@
     flex-direction: column;
     max-height: fit-content;
     padding: .5rem;
-    background-color: #ededed;
 }
 
 .logout-btn{
@@ -101,6 +100,10 @@ tr.users{
     padding: 0.75rem;
     vertical-align:middle;
     border-top: 1px solid #dee2e6;
+}
+
+.table{
+  background: none !important;
 }
 
 
