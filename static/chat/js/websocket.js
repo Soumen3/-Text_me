@@ -1,8 +1,10 @@
 console.log("websocket connection");
 
+const friend_id = JSON.parse(document.getElementById('json-friend_id').textContent);
+const friend_username = JSON.parse(document.getElementById('json-friend_username').textContent);
 
 
-const socket = new WebSocket('ws://' + window.location.host + '/ws/connect/');
+const socket = new WebSocket('ws://' + window.location.host + '/ws/' + friend_username + '/'+ friend_id + '/');
 
 socket.onopen = function(e) {
 	console.log('Connection established');
