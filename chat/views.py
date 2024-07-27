@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from verify_email.email_handler import send_verification_email
 from django.core.mail import send_mail
-from .models import Friend, UserProfile, Avatar
+from .models import Friend, UserProfile, Avatar, ChatModel
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -105,6 +105,16 @@ def chat_room(request, username, id):
     
     friend = User.objects.get(username=username, id=id)
     context['friend'] = friend
+
+    if request.user.id < id:
+        thread_name=f'chat_{request.user.id}_{id}'
+    else:
+        thread_name=f'chat_{id}_{request.user.id}'
+    
+    message_obj = ChatModel.objects.filter(thread=thread_name).order_by('timestamp')
+    context['Chats'] = message_obj
+
+    print(message_obj)
     return render(request, 'chat/chat_room.html', context)
 
 @login_required(login_url='login')
