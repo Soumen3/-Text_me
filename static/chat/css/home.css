@@ -43,6 +43,9 @@
 .features{
 	display: flex;
 	padding-top: 4rem;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 2rem;
 }
 
 .feature{

@@ -1,0 +1,10 @@
+
+
+@media screen and (max-width: 775px) {
+    .contacts {
+      display: none;
+    }
+    .top-left-profile{
+      display: none !important;
+    }
+  }

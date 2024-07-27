@@ -4,10 +4,10 @@
     z-index: -1;
   }
   
-  .back-main {
+  /* .back-main {
     background-color: #3f3d3d;
     height: 85vh;
-  }
+  } */
   
   .back-container {
     position: relative;
@@ -19,6 +19,7 @@
     left: 0;
     right: 0;
     z-index: -1;
+    padding: 0;
   }
   .front-container1 {
     position: acsolute;
@@ -36,6 +37,7 @@
   .profile{
     display: flex;
     gap: 1rem;
+    justify-content: center;
   }
 
   .profile-details{
@@ -44,8 +46,9 @@
   
   
   .contacts {
-    background-color: #4f4d4d;
+    /* background-color: #4f4d4d; */
     min-height: 600px;
+    padding: 0;
   }
 
   .friend_card{
@@ -58,17 +61,18 @@
   }
   
   .message-area {
-    background-color: #3c3b3b;
+    /* background-color: #3c3b3b; */
     min-height: 600px;
   }
   
   .message-table-scroll {
     overflow-y: scroll;
-    height: 550px;
+    height: 74vh;
   }
   
   .message-box {
     background-color: #666060;
+    padding: 5px !important;
   }
 
   .sender-message-element{
@@ -120,7 +124,7 @@ tr.users{
 }
 
 .chat-table{
-  background-color: #3c3b3b;
+  /* background-color: #3c3b3b; */
   width: 100%;
 }
 
