@@ -61,7 +61,7 @@ function send_messagge(){
 	var options = { hour12: true };
 	var timeString = currentTime.toLocaleTimeString([], options);
 	
-	if (message === '') {
+	if (message === "") {
 		return;
 	}
 

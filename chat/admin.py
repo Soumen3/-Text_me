@@ -38,7 +38,7 @@ admin.site.register(Site)
 
 @admin.register(ChatModel)
 class ChatModelAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sender', 'receiver', 'message', 'timestamp')
+    list_display = ('id', 'sender', 'receiver','thread', 'message', 'timestamp')
     search_fields = ('sender__username', 'receiver__username', 'message')
     list_filter = ('timestamp',)
-    list_editable = ('message',)
+    # list_editable = ('message',)

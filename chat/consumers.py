@@ -1,5 +1,6 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.auth.models import User
+from .models import ChatModel
 from channels.db import database_sync_to_async
 import json
 
@@ -34,7 +35,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		message = content['message']
 		sender_username = content['sender_username']
 		timestamp = content['timestamp']
+		print(content)
+		friend_id = content['friend_id']
 
+		await self.save_message(self.scope['user'],message,friend_id, self.room_group_name, timestamp)
 		await self.channel_layer.group_send(
 			self.room_group_name,
 			{
@@ -45,6 +49,16 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			}
 		)
 		
+	@database_sync_to_async
+	def save_message(self, user,message,friend_id, thread, timestamp):
+		receiver=User.objects.get(id=friend_id)
+		ChatModel.objects.create(
+			sender=user,
+			receiver=receiver,
+			thread=thread,
+			message=message,
+			timestamp=timestamp
+		)
 
 
 	async def chat_message(self,event):
@@ -63,5 +77,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
 
 	async def disconnect(self, close_code):
+		await self.channel_layer.group_discard(
+			self.room_group_name,
+			self.channel_name
+		)
 		print("Disconnected to the websocket")
 		

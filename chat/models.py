@@ -53,6 +53,7 @@ class Friend(models.Model):
 class ChatModel(models.Model):
 	sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
 	receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+	thread = models.CharField(max_length=100, null=True, blank=True)
 	message = models.TextField()
 	timestamp = models.DateTimeField(auto_now_add=True)
 
