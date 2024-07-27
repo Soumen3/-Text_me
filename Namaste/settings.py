@@ -155,3 +155,14 @@ VERIFICATION_FAILED_TEMPLATE = "email_verification/verification_failed.html"
 LINK_EXPIRED_TEMPLATE = "email_verification/link_expired.html"
 REQUEST_NEW_EMAIL_TEMPLATE = "email_verification/request_new_email.html"
 NEW_EMAIL_SENT_TEMPLATE = "email_verification/new_email_sent.html"
+
+
+# channel layers
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

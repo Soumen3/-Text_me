@@ -5,7 +5,7 @@
   }
   
   .back-main {
-    background-color: #d9dbd5;
+    background-color: #3f3d3d;
     height: 85vh;
   }
   
@@ -58,7 +58,7 @@
   }
   
   .message-area {
-    background-color: #e4e1de;
+    background-color: #3c3b3b;
     min-height: 600px;
   }
   
@@ -68,7 +68,20 @@
   }
   
   .message-box {
-    background-color: #f0f0f0;
+    background-color: #666060;
+  }
+
+  .sender-message-element{
+    width: fit-content;
+    max-width: 50%;
+    display: table-cell;
+    justify-self: flex-end;
+  }
+  .receiver-message-element{
+    width: fit-content;
+    max-width: 50%;
+    display: table-cell;
+    justify-self: flex-start;
   }
 
   .time-stamp{
@@ -104,6 +117,11 @@ tr.users{
 
 .table{
   background: none !important;
+}
+
+.chat-table{
+  background-color: #3c3b3b;
+  width: 100%;
 }
 
 

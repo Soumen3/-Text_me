@@ -76,7 +76,53 @@
 								<!-- end -->
 							</tbody>
 						</table>
-					</div>	
+					</div>
+				</div>
+				<div class="col-sm-8 message-area">
+					<div class="message-table-scroll" id="chat-window">
+						<table class="chat-table">
+							<tbody id='chat-body'>
+								{% for message in messages %}
+								{% if message.sender == request.user.username %}
+								<tr>
+									<td style="display:grid">
+										<p class="sender-message-element bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
+											{{message.message}} <br>
+											<small class="p-1  time-stamp">{{message.time_stamp|time:'h:i A'}}</small>
+										</p>
+									</td>
+								   
+								</tr>
+								{% else %}
+								<tr>
+									<td style="display:grid">
+										<p class="receiver-message-element bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
+											{{message.message}} <br>
+											<small class="p-1  time-stamp">{{message.time_stamp|time:'h:i A'}}</small>
+										</p>
+									</td>                                
+								</tr>
+								{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="row message-box p-3">
+						<div class="col-sm-2 mt-2">
+							<i class="bi bi-emoji-smile-fill"></i>
+							<i class="bi bi-paperclip"></i>
+						</div>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="message_input" placeholder="Write message..." required>
+	
+						</div>
+						<div class="col-sm-2 mt-1">
+							<div class="control">
+								<button class="btn btn-primary text-nowrap" id="chat-message-submit">  Send <i class="bi bi-send"></i> </button>
+							</div>
+						</div>
+	
+					</div>
 				</div>
 			</div>
 		</div>
@@ -87,7 +133,9 @@
 
 
 	{{friend.id|json_script:"json-friend_id"}}
-	{{friend.username|json_script:"json-friend_username"}}
+	{{request.user.username|json_script:"json-sender_username"}}
+	{{friend.username|json_script:"json-reciever_username"}}
+
 	
 {% endblock body %}
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Friend, UserProfile, Avatar, Site
+from .models import Friend, UserProfile, Avatar, Site, ChatModel
 
 # Register your models here.
 
@@ -35,3 +35,10 @@ class AvatarAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Site)
+
+@admin.register(ChatModel)
+class ChatModelAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sender', 'receiver', 'message', 'timestamp')
+    search_fields = ('sender__username', 'receiver__username', 'message')
+    list_filter = ('timestamp',)
+    list_editable = ('message',)
