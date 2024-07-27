@@ -19,7 +19,7 @@ socket.onmessage = function(e) {
 
 	if (data.sender_username == sender_username) {
         document.querySelector('#chat-body').innerHTML += `
-        <tr class="table-secondary">
+        <tr >
             <td style="display:grid">
                 <p class="sender-message-element bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
                     ${data.message} <br>
@@ -31,7 +31,7 @@ socket.onmessage = function(e) {
     }
     else {
         document.querySelector('#chat-body').innerHTML += `
-        <tr class="table-secondary">
+        <tr >
             <td style="display:grid">
                 <p class="receiver-message-element bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
                     ${data.message} <br>

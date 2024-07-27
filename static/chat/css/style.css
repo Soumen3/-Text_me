@@ -5,6 +5,7 @@ body{
 	color: #fff;
 	/* cursor: none; */
 	min-height: 100vh;
+	margin: 0;
 }
 
 .fade-out {

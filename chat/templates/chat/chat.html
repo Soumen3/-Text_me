@@ -12,7 +12,7 @@
 			<div class="back-main"></div>
 		</div>
 
-		<div class="container front-container1">
+		<div class=" front-container1">
 			<div class="row chat-top">
 				<div class="col-sm-4 border-right border-secondary top-left-profile">
 					<div class="profile">
@@ -27,7 +27,7 @@
 			<div class="row">
 				<div class="col-sm-4 contacts">
 					<div class="contact-table-scroll">
-						<table class="table table-secondary table-hover">
+						<table class="table table-dark table-hover">
 							<tbody>
 								{% for friend in friend_profiles %}
 								<tr class='users'>
@@ -38,7 +38,7 @@
 									{% else %}
 									<td>
 										<a id="{{user.username}}_status" class="friend_card" href="{% url "chat_room" friend.username friend.id %}">
-											<div class="friend-name text text-dark fs-5">{{friend.first_name}} {{friend.last_name}}</div>
+											<div class="friend-name text text-light fs-5">{{friend.first_name}} {{friend.last_name}}</div>
 											<div class="friend-username text text-secondary fs-sm">{{friend.username}}</div>
 										</a>
 									</td>

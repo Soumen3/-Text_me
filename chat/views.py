@@ -89,8 +89,6 @@ def chat(request):
     context['friends'] = friends
     profiles = User.objects.filter(id__in=[friend.user_1.id if friend.user_1 != request.user else friend.user_2.id for friend in friends])
     context['friend_profiles'] = profiles
-    print(profiles)
-    print(friends)
     return render(request, 'chat/chat.html', context)
 
 @login_required(login_url='login')
@@ -114,7 +112,6 @@ def chat_room(request, username, id):
     message_obj = ChatModel.objects.filter(thread=thread_name).order_by('timestamp')
     context['Chats'] = message_obj
 
-    print(message_obj)
     return render(request, 'chat/chat_room.html', context)
 
 @login_required(login_url='login')
