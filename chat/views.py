@@ -225,6 +225,11 @@ def contact_profile(request, username, id):
     context['user']=contact_user
     profile = UserProfile.objects.get(user=contact_user)
     context['profile']=profile
+    friend_status = Friend.objects.filter(
+        (Q(user_1=request.user) & Q(user_2=contact_user)) | 
+        (Q(user_1=contact_user) & Q(user_2=request.user))
+    ).first()
+    context['friend_status'] = friend_status.status if friend_status else 'unknown'
     return render(request, 'chat/contact_profile.html', context)
 
 

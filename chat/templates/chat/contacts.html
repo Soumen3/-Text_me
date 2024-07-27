@@ -45,7 +45,7 @@
 										{% if user.id == key %}
 											{% if val == "accepted" %}
 												<span class="badge text-bg-info">Friend</span> 
-												<a href="" class="btn btn-success">Message</a>
+												<a href="{% url "chat_room" user.username user.id %}" class="btn btn-success">Message</a>
 											{% elif  val == "pending" %}
 												<span class="badge text-bg-warning">Pending</span>
 											{% elif  val == "blocked" %}
@@ -110,7 +110,11 @@
 							<div class="item-action text-end">
 								{% if friend.status == "accepted" %}
 									<span class="badge text-bg-info">Friend</span> 
-									<a href="" class="btn btn-success">Message</a>
+									{% if request.user.id == friend.user_1.id %}
+										<a href="{% url "chat_room" friend.user_2.username friend.user_2.id %}" class="btn btn-success">Message</a>
+									{% else %}
+										<a href="{% url "chat_room" friend.user_1.username friend.user_1.id %}" class="btn btn-success">Message</a>
+									{% endif %}
 								{% elif  friend.status == "pending" %}
 									{% if  request.user == friend.user_2 %}
 									<a href="" class="btn btn-success accept-friend-btn" data-user-id="{{ friend.user_1.id }}">Accept</a>

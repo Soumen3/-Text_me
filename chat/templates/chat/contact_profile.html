@@ -22,7 +22,9 @@
 			<div class="name-details col-sm-6">
 				<p class="fs-3 fw-bold name">{{user.first_name}} {{user.last_name}}</p>
 				<p class="fs-6 username">@{{user.username}}</p>
-				<p class="chat-button"><a href="" class="btn btn-success">Message</a></p>
+				{% if friend_status == 'accepted' %}
+					<p class="chat-button"><a href="{% url "chat_room" user.username user.id %}" class="btn btn-success">Message</a></p>
+				{% endif %}
 			</div>
 			<div class="col-sm-6">
 				<div class="contact-details">
