@@ -145,7 +145,7 @@ EMAIL_HOST_USER = "soumensamanta721150@gmail.com"
 EMAIL_HOST_PASSWORD = "vpit psev ueav brtk"
 
 DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
-EXPIRE_AFTER = "20m" # Will expire after 10 minutes from link generation
+EXPIRE_AFTER = "10m" # Will expire after 10 minutes from link generation
 LOGIN_URL = 'login'
 MAX_RETRIES = 10
 
