@@ -1,19 +1,29 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	Request New Email
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static "chat/css/email_verification.css" %}">
+{% endblock css %}
 
 {% block body %}
-	<form method='POST' class="resend-mail-form">{% csrf_token %}
-				
-		<fieldset>
-			{% for field in form %}
-				<div class="coolinput">
-					<label for="{{field.id_for_label}}" class="text">{{field.label}}</label>
-					{{field}}  <small class='text-warning'>{{field.errors|striptags}}</small>
-				</div>
-			{% endfor %}
-		</fieldset>
 
-		<div style="margin-top: 1rem;">
-			<button class="btn btn-dark" type="submit">Request New Email</button>
-		</div>
-	</form>
+	<div class="container mt-3">
+		<form method='POST' class="resend-mail-form">{% csrf_token %}
+			<fieldset>
+				{% for field in form %}
+					<div class="coolinput">
+						<label for="{{field.id_for_label}}" class="text text-capitalize">{{field.label}}:</label>
+						{{field}}  <small class='text-warning'>{{field.errors|striptags}}</small>
+					</div>
+				{% endfor %}
+			</fieldset>
+			<div  class="d-flex justify-content-center mt-3">
+				<button class="btn btn-danger" type="submit">Request New Email</button>
+			</div>
+		</form>
+	</div>
 {% endblock body %}

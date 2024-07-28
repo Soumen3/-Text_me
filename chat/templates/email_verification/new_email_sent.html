@@ -1,5 +1,31 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	New Email Sent
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'chat/css/email_verification/new_email_sent.css' %}">
+{% endblock css %}
 
 {% block body %}
-	<h1>New Email Sent</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="email-verification">
+					<h1>Email Verification</h1>
+					<p>
+						We have sent an email to you given mail id with a link to verify your email address. Please check your email and click on the link to verify your email address.
+					</p>
+					<p>
+						If you do not receive the email within a few minutes, please check your spam folder.
+					</p>
+					<p>
+						If you still do not receive the email, you can request a new email by clicking the button below.
+					</p>
+					<a href="{% url "request-new-link-from-email" %}" class="text btn btn-warning">Resend New Email</a>
+				</div>
+			</div>
+		</div>	</div>
 {% endblock body %}

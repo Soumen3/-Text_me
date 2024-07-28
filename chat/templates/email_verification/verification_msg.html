@@ -1,6 +1,18 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	Verify Email
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static "chat/css/email_verification.css" %}">
+{% endblock css %}
+
 
 {% block body %}
-	<p>{{msg}}</p>
-	<a href="{% url 'login' %}">Login</a>
+	<div class="msg-block container">
+		<p class="message text fs-3 fw-bold">{{msg}}</p>
+		<a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+	</div>
 {% endblock body %}
