@@ -53,5 +53,6 @@ This Django-based chat application allows users to chat in real-time using WebSo
 
 1. Access the chat application at `http://127.0.0.1:8000/`.
 2. Log in using your superuser credentials.
-3. Create chat rooms and invite users.
-4. Start chatting!
+3. Search your friends.
+4. Send them friend request.
+5. Start chatting with them after the accept your request.
