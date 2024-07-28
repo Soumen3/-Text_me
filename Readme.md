@@ -55,4 +55,4 @@ This Django-based chat application allows users to chat in real-time using WebSo
 2. Log in using your superuser credentials.
 3. Search your friends.
 4. Send them friend request.
-5. Start chatting with them after the accept your request.
+5. Start chatting with them after they accept your request.
